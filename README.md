@@ -1,1 +1,202 @@
 # odoo-docker-tutorial
+
+利用 docker 快速建立 odoo 環境，
+
+* [Youtube Tutorial - 透過 docker 快速建立 odoo 環境 - 從無到有](https://youtu.be/uqxzq4Td6aU)
+
+## 簡介
+
+什麼是 Odoo，他可以吃嗎 :question:
+
+[Odoo](https://www.odoo.com/) 是一套 ERP 系統，使用 Python 撰寫。
+
+Odoo 有兩種版本，分別是
+
+免費社群版 [Odoo-Community](https://www.odoo.com/page/community)，和收費企業版 Odoo-Enterprise。
+
+Odoo-Community 以及 Odoo-Enterprise 的功能差異可以看 [HERE](https://www.odoo.com/page/editions)。
+
+至於為什麼要有 Odoo-Enterprise，原因很簡單，就是要養工程師:smile:
+
+如果大家有興趣，可以去官網看一下 Odoo 的文章，有說會這樣做是因為公司差點 GG。
+
+Odoo Community 的 source code 都在 github 上，可以點這裡 [odoo](https://github.com/odoo/odoo)，
+
+其實如果你看他的 branch，你會發現他有很多版本，Odoo8，Odoo9，Odoo10，
+
+Odoo11，最新的 Odoo12，以及快要推出的 Odoo13。
+
+先簡單介紹到這邊就好，讓我們先來看看什麼是 Odoo:satisfied:
+
+## 教學
+
+這邊為了快速建立環境，將使用 docker 來建立，
+
+但是如果你想要開發 addons，我會建議使用 source code 的方式來建立 Odoo，
+
+這部分如果大家有興趣有機會我再拍影片教大家:smirk:
+
+如果你不懂 docker，可參考我之前寫的 [Docker 基本教學 - 從無到有 Docker-Beginners-Guide](https://github.com/twtrubiks/docker-tutorial)。
+
+Odoo 的 docker images 我使用 [odoo docker](https://hub.docker.com/_/odoo)，
+
+先來看 docker-compose.yml
+
+```yml
+version: '3.5'
+services:
+  web:
+    image: odoo:12.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+    # command:
+    #   odoo -r odoo -w odoo -i addons -d odoo
+  db:
+    image: postgres:10.9
+    # ports:
+    #   - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+
+volumes:
+  odoo-web-data:
+  odoo-db-data:
+```
+
+主要有兩個 services，
+
+先來看 web，這個主要就是 Odoo，這邊我們使用 `odoo:12.0`，然後這邊順便提一下，
+
+Odoo 每天都會在 [Odoo Nightly builds](http://nightly.odoo.com) build，
+
+你可以到 [odoo-docker-github](https://github.com/odoo/docker) 這邊去看這個 image 是用幾月幾號的 Odoo Source code build 的，
+
+如果你覺得太舊了，你也可以利用他的 Dockerfile 去 build 更新的 Odoo，這部分一樣有機會再教大家:smirk:
+
+volumes 中的 `odoo-web-data:/var/lib/odoo` 是儲存 Odoo 中的資料。
+
+volumes 中的 `./config:/etc/odoo` 則是 Odoo 的 config 設定 ( 等等會說明 )。
+
+volumes 中的 `./addons:/mnt/extra-addons` 則是 Odoo 的第三方 addons，
+
+我在 [addons](https://github.com/twtrubiks/odoo-docker-tutorial/tree/master/addons) 裡面放了 manay-addons-folder 檔案，代表說這邊就是要放 addons。
+
+( 因為 github 不能傳空的資料夾 :wink:)
+
+這邊我說明一下，其實 Odoo 是由很多 addons 組成的，
+
+可以看這邊 [https://github.com/odoo/odoo/tree/12.0/addons](https://github.com/odoo/odoo/tree/12.0/addons)，
+
+一個資料夾就是一個 addons，當然，既有的 addons 可能無法滿足需求，
+
+這時候就會有客製化以及第三方 addons 的存在，
+
+這時候你可能會問，除了原生的 addons，哪裡有第三方 addons 呢:question:
+
+我提供幾個地方給大家參考，主要有兩個，首先是 [OCA](https://github.com/OCA)，裡面超多 addons，
+
+再來是 [Odoo Apps](https://www.odoo.com/apps/modules)，裡面有免費和付費的。
+
+這篇文章不會和大家說要如何自己撰寫一個 addons，下次有機會會再拍影片:smirk:
+
+command 中的 `odoo -r odoo -w odoo -i addons -d odoo`，這段我是註解掉的，
+
+原因是不需要，什麼時候你會需要他 :question:
+
+當你需要透過 command line 安裝或更新 addons 的時候就可以這樣寫，
+
+odoo 中的 command line 說明可參考 [Command-line interface:odoo-bin](https://www.odoo.com/documentation/12.0/reference/cmdline.html)，
+
+( 一般的情況是要使用 odoo-bin，不過在 docker 中使用 odoo 即可 )
+
+回頭再來看 [odoo.conf](https://github.com/twtrubiks/odoo-docker-tutorial/tree/master/config)
+
+```conf
+[options]
+addons_path = /mnt/extra-addons
+data_dir = /var/lib/odoo
+```
+
+`addons_path` 就是 addons 的位置，通常都會有很多，使用逗號隔開即可。
+
+`data_dir` 保存 odoo 資料夾。
+
+這裡面其實還有超級多的參數設定 ( 暫時跳過 ) :smirk:
+
+再來看 db，
+
+Odoo 是使用 postgres，ports 的部分我是註解掉的，但這樣本機就無法訪問他，
+
+( 為什麼 ports 註解掉本機就無法連接，這邊如果你不太了解，
+
+可參考 [docker-compose ports 和 expose 差異](https://github.com/twtrubiks/docker-tutorial#docker-compose-ports-%E5%92%8C-expose-%E5%B7%AE%E7%95%B0) )
+
+如果你想要用 pgadmin4 之類的軟體連接到 postgres，請將註解取消，這樣你才可以連到資料庫
+
+( pgadmin4 是一套免費的工具，連接 postgres，可參考 [利用 docker 快速建立 pgadmin4](https://github.com/twtrubiks/docker-pgadmin4-tutorial) )
+
+## 執行 odoo
+
+```cmd
+docker-compose up
+```
+
+然後可以瀏覽 [http://localhost:8069](http://localhost:8069)，
+
+![alt tag](https://i.imgur.com/fpmc67U.png)
+
+你應該會看到下圖，
+
+![alt tag](https://i.imgur.com/6FS6NPw.png)
+
+設定完之後等耐心等候，
+
+![alt tag](https://i.imgur.com/BJFU12e.png)
+
+## 後記
+
+這次的 Odoo 介紹是很基礎的帶大家稍微了解一下，還有非常多東西可以講，像是如何撰寫 addons，
+
+如何擴充既有的 addons，Odoo 架構，Odoo 開發環境建立，Odoo 如何搭配 Nginx 等等......
+
+幾乎都可以單獨拍一支影片和大家做介紹。
+
+## Reference
+
+* [Odoo](https://www.odoo.com/)
+* [odoo docker](https://hub.docker.com/_/odoo)
+
+## Donation
+
+文章都是我自己研究內化後原創，如果有幫助到您，也想鼓勵我的話，歡迎請我喝一杯咖啡:laughing:
+
+綠界科技ECPAY ( 不需註冊會員 )
+
+![alt tag](https://payment.ecpay.com.tw/Upload/QRCode/201906/QRCode_672351b8-5ab3-42dd-9c7c-c24c3e6a10a0.png)
+
+[贊助者付款](http://bit.ly/2F7Jrha)
+
+歐付寶 ( 需註冊會員 )
+
+![alt tag](https://i.imgur.com/LRct9xa.png)
+
+[贊助者付款](https://payment.opay.tw/Broadcaster/Donate/9E47FDEF85ABE383A0F5FC6A218606F8)
+
+## 贊助名單
+
+[贊助名單](https://github.com/twtrubiks/Thank-you-for-donate)
+
+## License
+
+MIT license
