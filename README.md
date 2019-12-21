@@ -194,9 +194,11 @@ Activate the developer mode (with assets) -> 這個事前端 debug 用的。
 
 像是 Odoo Debug - Google Chrome 之類的 , Firefox 也有。
 
-## 如何安裝 addons
+## 如何安裝第三方 addons
 
-使用 [Row Number in tree/list view](https://apps.odoo.com/apps/modules/12.0/rowno_in_tree/) 這個 addons 做測試
+* [Youtube Tutorial - odoo 如何安裝 addons](XXX)
+
+使用 [Row Number in tree/list view](https://apps.odoo.com/apps/modules/12.0/rowno_in_tree/) 這個 addons 做測試,
 
 請記得選對版本, 這邊選擇 odoo12, 下載後, 請解壓縮
 
