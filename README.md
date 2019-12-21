@@ -164,6 +164,74 @@ docker-compose up
 
 ![alt tag](https://i.imgur.com/BJFU12e.png)
 
+## odoo12 如何開啟 odoo developer mode
+
+* [Youtube Tutorial - odoo12 如何開啟 odoo developer mode](https://youtu.be/fUtqWQHbt1I)
+
+在 odoo 中, 開啟 developer mode 是很重要的:thumbsup:
+
+他可以幫助你很多事情, 那要如何開啟呢:question:
+
+點選 Settings
+
+![alt tag](https://i.imgur.com/qiTHdhI.png)
+
+你會發現右邊有兩個選項, 分別是,
+
+Activate the developer mode -> 通常我都選這個。
+
+Activate the developer mode (with assets) -> 這個事前端 debug 用的。
+
+![alt tag](https://i.imgur.com/Cs5j6Vj.png)
+
+點選下去之後, 你會發現網址多了 `?debug` 的字,
+
+![alt tag](https://i.imgur.com/jadcuLD.png)
+
+其實你後來會發現, 直接將網址的 web 字串後加上 `?debug` 就可以進入 debug 了。
+
+如果你還是很懶, 也有瀏覽器擴充可以幫忙,
+
+像是 Odoo Debug - Google Chrome 之類的 , Firefox 也有。
+
+## 如何安裝 addons
+
+使用 [Row Number in tree/list view](https://apps.odoo.com/apps/modules/12.0/rowno_in_tree/) 這個 addons 做測試
+
+請記得選對版本, 這邊選擇 odoo12, 下載後, 請解壓縮
+
+![alt tag](https://i.imgur.com/MQDJZGQ.png)
+
+接著放入 addons 資料夾
+
+![alt tag](https://i.imgur.com/bN0J7Ho.png)
+
+我會建議這兩步驟也要操作,
+
+將 addons 資料夾給最大權限 ( Linux 用戶 )
+
+```cmd
+sudo chmod -R 777 addons
+```
+
+如果對 Linux 指令不熟 , 可參考 [紀錄一些 linux 的指令📝](https://github.com/twtrubiks/linux-note)
+
+![alt tag](https://i.imgur.com/9pGcFjy.png)
+
+然後重起 server ( 這步驟很重要, 有時候沒重起真的會遇到很怪的問題:joy: )
+
+![alt tag](https://i.imgur.com/glw83qW.png)
+
+記得開 debug, 點選 Update Apps List
+
+![alt tag](https://i.imgur.com/TBdGFh3.png)
+
+找到 addons, addons 的名稱就是資料夾的名稱
+
+![alt tag](https://i.imgur.com/HftVAvZ.png)
+
+點選 Install 即可。
+
 ## 後記
 
 這次的 Odoo 介紹是很基礎的帶大家稍微了解一下，還有非常多東西可以講，像是如何撰寫 addons，
