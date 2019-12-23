@@ -196,7 +196,7 @@ Activate the developer mode (with assets) -> 這個事前端 debug 用的。
 
 ## 如何安裝第三方 addons
 
-* [Youtube Tutorial - odoo 如何安裝 addons](XXX)
+* [Youtube Tutorial - odoo 如何安裝 addons](https://youtu.be/aN35xlUBKwc)
 
 使用 [Row Number in tree/list view](https://apps.odoo.com/apps/modules/12.0/rowno_in_tree/) 這個 addons 做測試,
 
