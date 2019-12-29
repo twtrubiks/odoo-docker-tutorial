@@ -4,6 +4,18 @@
 
 * [Youtube Tutorial - 透過 docker 快速建立 odoo 環境 - 從無到有](https://youtu.be/uqxzq4Td6aU)
 
+## 目錄
+
+1. [odoo 簡介](https://github.com/twtrubiks/odoo-docker-tutorial#%E7%B0%A1%E4%BB%8B) - [Youtube Tutorial - 透過 docker 快速建立 odoo 環境 - 從無到有](https://youtu.be/uqxzq4Td6aU)
+
+2. [利用 docker 快速建立 odoo 環境](https://github.com/twtrubiks/odoo-docker-tutorial#%E6%95%99%E5%AD%B8) - [Youtube Tutorial - 透過 docker 快速建立 odoo 環境 - 從無到有](https://youtu.be/uqxzq4Td6aU)
+
+3. [odoo12 如何開啟 odoo developer mode](https://github.com/twtrubiks/odoo-docker-tutorial#odoo12-%E5%A6%82%E4%BD%95%E9%96%8B%E5%95%9F-odoo-developer-mode) - [Youtube Tutorial - odoo12 如何開啟 odoo developer mode](https://youtu.be/fUtqWQHbt1I)
+
+4. [如何安裝第三方 addons](https://github.com/twtrubiks/odoo-docker-tutorial#%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9D%E7%AC%AC%E4%B8%89%E6%96%B9-addons) - [Youtube Tutorial - odoo 如何安裝 addons](https://youtu.be/aN35xlUBKwc)
+
+5. [如何進入 odoo Database 管理界面](https://github.com/twtrubiks/odoo-docker-tutorial#%E5%A6%82%E4%BD%95%E9%80%B2%E5%85%A5-odoo-database-%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2) - [Youtube Tutorial - 如何進入 odoo Database 管理界面](https://youtu.be/JIRcz1WDLT0)
+
 ## 簡介
 
 什麼是 Odoo，他可以吃嗎 :question:
@@ -234,13 +246,89 @@ sudo chmod -R 777 addons
 
 點選 Install 即可。
 
+## 如何進入 odoo Database 管理界面
+
+* [Youtube Tutorial - 如何進入 odoo Database 管理界面](https://youtu.be/JIRcz1WDLT0)
+
+odoo 的登入頁面, 下方會有個 Manage Database，
+
+![alt tag](https://i.imgur.com/bFLtf4N.png)
+
+點下去你會看到下圖，
+
+![alt tag](https://i.imgur.com/yr7fTG1.png)
+
+網址是 [http://0.0.0.0:8069/web/database/manager](http://0.0.0.0:8069/web/database/manager)，你也可以直接輸入網址進入，
+
+在這邊可以管理 odoo db，包含建立, 刪除, 還原, 備份。
+
+![alt tag](https://i.imgur.com/Z4OSyLG.png)
+
+有注意到 Set Master Password 嗎:question:
+
+(可參考 [Master Password](https://www.pgadmin.org/docs/pgadmin4/development/master_password.html))
+
+他其實是算多一層保護:relieved:
+
+當我們如果設定他之後， 在頁面上做任何操作，
+
+都會需要密碼。
+
+這個 Set Master Password 也可以在 `odoo.conf` 中設定
+
+```conf
+[options]
+addons_path = /mnt/extra-addons
+data_dir = /var/lib/odoo
+
+admin_passwd = 666666
+; list_db = False
+```
+
+(`;` 代表註解)
+
+重起後就會生效。
+
+舉個例子，如果我要刪除 db，他會要你輸入你的 admin_passwd，
+
+![alt tag](https://i.imgur.com/sCSN9f9.png)
+
+你可能會問我, 這樣任何 user 都可以進去, 不會很危險嗎:question:
+
+（當然危險:joy:）
+
+所以這個頁面可以關閉 (將 `list_db` 設為 `False` )
+
+```conf
+[options]
+addons_path = /mnt/extra-addons
+data_dir = /var/lib/odoo
+
+admin_passwd = 666666
+list_db = False
+```
+
+這樣就無法進去這個頁面了，
+
+![alt tag](https://i.imgur.com/ydnI8V8.png)
+
+但這樣連 admin 也無法進去這頁面了:scream:
+
+所以比較好的方法是搭配 Nginx 把 url block 掉:smile:
+
+( 設定只有特定 ip 可以訪問頁面 )
+
 ## 後記
 
 這次的 Odoo 介紹是很基礎的帶大家稍微了解一下，還有非常多東西可以講，像是如何撰寫 addons，
 
-如何擴充既有的 addons，Odoo 架構，Odoo 開發環境建立，Odoo 如何搭配 Nginx 等等......
+如何擴充既有的 addons，Odoo 架構，Odoo 如何搭配 Nginx 等等......
 
 幾乎都可以單獨拍一支影片和大家做介紹。
+
+## 延伸閱讀
+
+[如何建立 odoo 開發環境 - odoo13 - 從無到有](https://github.com/twtrubiks/odoo-development-environment-tutorial)
 
 ## Reference
 
