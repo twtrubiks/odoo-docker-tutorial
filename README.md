@@ -16,6 +16,8 @@
 
 5. [如何進入 odoo Database 管理界面](https://github.com/twtrubiks/odoo-docker-tutorial#%E5%A6%82%E4%BD%95%E9%80%B2%E5%85%A5-odoo-database-%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2) - [Youtube Tutorial - 如何進入 odoo Database 管理界面](https://youtu.be/JIRcz1WDLT0)
 
+6. [如何使用 pgadmin4 連接 odoo](https://github.com/twtrubiks/odoo-docker-tutorial#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-pgadmin4-%E9%80%A3%E6%8E%A5-odoo) - [Youtube Tutorial - 如何使用 pgadmin4 連接 odoo](https://youtu.be/afuB8wnozo8)
+
 ## 簡介
 
 什麼是 Odoo，他可以吃嗎 :question:
@@ -317,6 +319,38 @@ list_db = False
 所以比較好的方法是搭配 Nginx 把 url block 掉:smile:
 
 ( 設定只有特定 ip 可以訪問頁面 )
+
+## 如何使用 pgadmin4 連接 odoo
+
+* [Youtube Tutorial - 如何使用 pgadmin4 連接 odoo](https://youtu.be/afuB8wnozo8)
+
+如果不知道什麼是 pgadmin4 以及安裝方法, 可參考我之前寫的
+
+[利用 docker 快速建立 pgadmin4 以及 Ubuntu 本機如何安裝 pgadmin4](https://github.com/twtrubiks/docker-pgadmin4-tutorial)
+
+記得把 db 的 port 打開
+
+![alt tag](https://i.imgur.com/3jRmI1M.png)
+
+輸入連線資訊 ( 如果你使用我的範例, 都會是 odoo )
+
+![alt tag](https://i.imgur.com/vGJRvAS.png)
+
+連進去你會看到很多 db , 像我這邊有建立了 odoo 以及 odoo1
+
+![alt tag](https://i.imgur.com/ySsgUCG.png)
+
+找到 table
+
+![alt tag](https://i.imgur.com/f0CHRoG.png)
+
+使用 expense 來測試, 修改 name 欄位
+
+![alt tag](https://i.imgur.com/0WeUDKH.png)
+
+頁面上的資料也跟著改變
+
+![alt tag](https://i.imgur.com/jUD4XAM.png)
 
 ## 後記
 
