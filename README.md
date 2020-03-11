@@ -18,6 +18,8 @@
 
 6. [如何使用 pgadmin4 連接 odoo](https://github.com/twtrubiks/odoo-docker-tutorial#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-pgadmin4-%E9%80%A3%E6%8E%A5-odoo) - [Youtube Tutorial - 如何使用 pgadmin4 連接 odoo](https://youtu.be/afuB8wnozo8)
 
+7. [Youtube Tutorial - 忘記 admin 密碼該怎麼辦 odoo13](https://youtu.be/C3PGUApVHzM)
+
 ## 簡介
 
 什麼是 Odoo，他可以吃嗎 :question:
@@ -351,6 +353,182 @@ list_db = False
 頁面上的資料也跟著改變
 
 ![alt tag](https://i.imgur.com/jUD4XAM.png)
+
+## 如何啟用 odoo 中的 Logging
+
+[Youtube Tutorial - odoo13 如何啟用 odoo 中的 Logging]()
+
+官方文件請參考 [odoo logging](https://www.odoo.com/documentation/13.0/reference/cmdline.html#logging)
+
+一般來說, logging 都會顯示在 `stdout` (通常就是你的 terminal)
+
+注意, 這邊有同時有 web 和 db 的 log,
+
+![alt tag](https://i.imgur.com/YlQ68Cz.png)
+
+但如果說今天我想要將 Logging 保存, 可能以後想要搭配 ELK 分析該怎麼辦:question:
+
+首先到, [odoo.conf](https://github.com/twtrubiks/odoo-docker-tutorial/blob/master/config/odoo.conf) 中加入
+
+```conf
+......
+
+logfile = /var/log/odoo/odoo.log
+; critical, error, warn, debug
+log_level = info
+```
+
+為了方便觀看檔案, 這邊 `.yml` 也要稍微修改一下
+
+```yml
+version: '3.5'
+services:
+  web:
+    image: odoo:12.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+      - ./odoo-log-data:/var/log/odoo # <----here
+```
+
+將 `/var/log/odoo` 資料夾同步到本機的 `./odoo-log-data`.
+
+然後還有一點很重要, 請將你的 `./odoo-log-data` 給於權限 :exclamation::exclamation:
+
+不然你會發現你資料一直寫不進去:joy:
+
+方法也很簡單, 使用以下的指令即可
+
+```cmd
+sudo chmod -R 777 odoo-log-data
+```
+
+接著重新啟動, 你會發現你的 terminal 只剩下 db 的 log 而已
+
+![alt tag](https://i.imgur.com/1nLhjyc.png)
+
+然後 odoo 的 log 被存到 `./odoo-log-data` 中
+
+![alt tag](https://i.imgur.com/M79Mvtd.png)
+
+也可以使用 `tail -f odoo-log-data/odoo.log` 保持追蹤查看.
+
+## odoo13 如何安裝需要 python package 的 addons
+
+[準備中-Youtube Tutorial - odoo13 如何安裝需要 python package 的 addons]()
+
+在 odoo 中, 你超級多的 addons 可以玩, 但我相信大家一定有看過以下這張圖
+
+![alt tag](https://i.imgur.com/BdndEXx.png)
+
+我使用兩個 addons 來說明(預防)這個問題,
+
+狀況一(偶而).
+
+看 [auto_backup](https://apps.odoo.com/apps/modules/13.0/auto_backup/) 這個 addons,
+
+在他的 `auto_backup/models/db_backup.py` 中, 你會看到如下的圖,
+
+![alt tag](https://i.imgur.com/fbBql23.png)
+
+也就是你缺了 `paramiko` 這個 package.
+
+這種情況比較難預防, 除非你進去把每個 `.py` 的檔案都檢查過一次(通常都會放在最上面)
+
+狀況二(常見).
+
+看 [report_xlsx](https://apps.odoo.com/apps/modules/13.0/report_xlsx/) 這個 addons,
+
+在他的 `report_xlsx/__manifest__.py` 中, 你會看到如下的圖,
+
+![alt tag](https://i.imgur.com/AZnbihy.png)
+
+這種是比較常見的狀況, 就是所需要的 python package 都包含在 `external_dependencies`,
+
+這樣就比較簡單了, 安裝 addons 前, 只需要檢查 `__manifest__.py` 即可.
+
+講完兩種狀況了, 接下來說明如何解決:smile:
+
+其實也很簡單, 就把 python package 裝起來即可, 這邊用 docker 當範例, 如果不是用 docker, 直接
+
+在環境下 `pip3 install xxx` 即可.
+
+docker 的方法, 首先, 先確定 docker odoo 已經執行, 然後執行 `docker exec -it xxx bash` 進入容器,
+
+再執行 `pip3 install paramiko` 即可.
+
+![alt tag](https://i.imgur.com/y9JG4fO.png)
+
+最後重新啟動 odoo 安裝 auto_backup 即可.
+
+溫馨提醒, 不要用 `docker-compose down` (今天他會重建容器, 這樣你安裝的 package 就失效了), 請使用
+
+`docker-compose stop`.
+
+如果不懂這邊, 請參考 [docker-compose up/down 和 restart 的差異](https://github.com/twtrubiks/docker-tutorial#docker-compose-updown-%E5%92%8C-restart-%E7%9A%84%E5%B7%AE%E7%95%B0) 或直接看影片說明
+
+[Youtube Tutorial- docker-compose up/down 和 restart 的差異](https://youtu.be/nX-sbLPz-MU)
+
+這邊你可能會問我, 如果我想要建立自己的 odoo images 呢:question: (因為我就是會安裝某些特定 addons)
+
+下面就繼續來介紹這部份:satisfied:
+
+## odoo13 - 如何建立屬於自己的 docker odoo image
+
+[Youtube Tutorial - odoo13 - 如何建立屬於自己的 docker odoo image]()
+
+所使用的 [docker-odoo](https://github.com/odoo/docker) repo,
+
+請看 [Dockerfile](),
+
+主要就是要修改這邊,
+
+![alt tag](https://i.imgur.com/q4GIfmJ.png)
+
+```text
+ARG ODOO_RELEASE=20200121
+ARG ODOO_SHA=cb0bcb5d239983468c2e3b3f7cf17f58df820b1c
+```
+
+假設今天有一個 bug 在 20200301 才被修正, 可是官方的 docker images 只到1月該怎辦:question:
+
+這時候肯定就是動手自己來 build 了:laughing:
+
+修改 `ODOO_RELEASE=20200301` 然後 `ODOO_SHA` 需要到以下的網站查看 `odoo_13.0.20200301_amd64.changes`,
+
+[http://nightly.odoo.com/13.0/nightly/deb/](http://nightly.odoo.com/13.0/nightly/deb/)
+
+![alt tag](https://i.imgur.com/gDwIQmR.png)
+
+```text
+ARG ODOO_RELEASE=20200301
+ARG ODOO_SHA=c72896852e6a6aa730db366a96d2602d91317bfa
+```
+
+這邊是主要的 odoo images 修改, 如果你希望你的 odoo images 預設就包含某些 python package,
+
+你可以自行加入, 舉個例子, 加入 paramiko,
+
+![alt tag](https://i.imgur.com/0JGfwCd.png)
+
+最後, 請記得給資料夾權限, `sudo chmod -R 777 build-odoo-image`.
+
+切換到目錄資料夾底下輸入 build 指令 (這邊要多等一下:smirk:)
+
+```cmd
+docker build -t twtrubiks/odoo13:20200301 .
+```
+
+build 完之後, 如果一定正常, 輸入 `docker images` 你應該會看到下圖
+
+接著把你的 `docker-compose.yml` 中的 image 修改成你自己的測試看看,
+
+你也可以自己進去 odoo 容器中確認是否有安裝 `paramiko`.
 
 ## 後記
 

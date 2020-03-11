@@ -10,6 +10,7 @@ services:
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
       - ./addons:/mnt/extra-addons
+      - ./odoo-log-data:/var/log/odoo
     # command:
     #   odoo -r odoo -w odoo -i addons -d odoo
   db:
