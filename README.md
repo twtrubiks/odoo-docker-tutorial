@@ -1,9 +1,5 @@
 # odoo-docker-tutorial
 
-利用 docker 快速建立 odoo 環境，
-
-* [Youtube Tutorial - 透過 docker 快速建立 odoo 環境 - 從無到有](https://youtu.be/uqxzq4Td6aU)
-
 ## 目錄
 
 1. [odoo 簡介](https://github.com/twtrubiks/odoo-docker-tutorial#%E7%B0%A1%E4%BB%8B) - [Youtube Tutorial - 透過 docker 快速建立 odoo 環境 - 從無到有](https://youtu.be/uqxzq4Td6aU)
@@ -19,6 +15,12 @@
 6. [如何使用 pgadmin4 連接 odoo](https://github.com/twtrubiks/odoo-docker-tutorial#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-pgadmin4-%E9%80%A3%E6%8E%A5-odoo) - [Youtube Tutorial - 如何使用 pgadmin4 連接 odoo](https://youtu.be/afuB8wnozo8)
 
 7. [Youtube Tutorial - 忘記 admin 密碼該怎麼辦 odoo13](https://youtu.be/C3PGUApVHzM)
+
+8. [odoo13 如何啟用 odoo 中的 Logging](https://github.com/twtrubiks/odoo-docker-tutorial#%E5%A6%82%E4%BD%95%E5%95%9F%E7%94%A8-odoo-%E4%B8%AD%E7%9A%84-logging) - [Youtube Tutorial - odoo13 如何啟用 odoo 中的 Logging](https://youtu.be/TwgPfdvuvxQ)
+
+9. [odoo13 如何安裝需要 python package 的 addons](https://github.com/twtrubiks/odoo-docker-tutorial#odoo13-%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9D%E9%9C%80%E8%A6%81-python-package-%E7%9A%84-addons) - [Youtube Tutorial - odoo13 如何安裝需要 python package 的 addons](https://youtu.be/CwaNdXV_2SY)
+
+10. [odoo13 - 如何建立屬於自己的 docker odoo image](https://github.com/twtrubiks/odoo-docker-tutorial#odoo13---%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E5%B1%AC%E6%96%BC%E8%87%AA%E5%B7%B1%E7%9A%84-docker-odoo-image) - [Youtube Tutorial - odoo13 - 如何建立屬於自己的 docker odoo image](https://youtu.be/n8n1nJyw9ZM)
 
 ## 簡介
 
@@ -356,7 +358,7 @@ list_db = False
 
 ## 如何啟用 odoo 中的 Logging
 
-[Youtube Tutorial - odoo13 如何啟用 odoo 中的 Logging]()
+[Youtube Tutorial - odoo13 如何啟用 odoo 中的 Logging](https://youtu.be/TwgPfdvuvxQ)
 
 官方文件請參考 [odoo logging](https://www.odoo.com/documentation/13.0/reference/cmdline.html#logging)
 
@@ -368,7 +370,7 @@ list_db = False
 
 但如果說今天我想要將 Logging 保存, 可能以後想要搭配 ELK 分析該怎麼辦:question:
 
-首先到, [odoo.conf](https://github.com/twtrubiks/odoo-docker-tutorial/blob/master/config/odoo.conf) 中加入
+首先, 到[odoo.conf](https://github.com/twtrubiks/odoo-docker-tutorial/blob/master/config/odoo.conf) 中加入
 
 ```conf
 ......
@@ -420,15 +422,15 @@ sudo chmod -R 777 odoo-log-data
 
 ## odoo13 如何安裝需要 python package 的 addons
 
-[準備中-Youtube Tutorial - odoo13 如何安裝需要 python package 的 addons]()
+[準備中-Youtube Tutorial - odoo13 如何安裝需要 python package 的 addons](https://youtu.be/CwaNdXV_2SY)
 
-在 odoo 中, 你超級多的 addons 可以玩, 但我相信大家一定有看過以下這張圖
+在 odoo 中, 有超級多的 addons 可以玩, 但我相信大家一定有看過以下這張圖
 
 ![alt tag](https://i.imgur.com/BdndEXx.png)
 
 我使用兩個 addons 來說明(預防)這個問題,
 
-狀況一(偶而).
+狀況一(偶爾).
 
 看 [auto_backup](https://apps.odoo.com/apps/modules/13.0/auto_backup/) 這個 addons,
 
@@ -454,9 +456,9 @@ sudo chmod -R 777 odoo-log-data
 
 講完兩種狀況了, 接下來說明如何解決:smile:
 
-其實也很簡單, 就把 python package 裝起來即可, 這邊用 docker 當範例, 如果不是用 docker, 直接
+其實也很簡單, 就把 python package 裝起來即可, 這邊用 docker 當範例, 如果不是用 docker,
 
-在環境下 `pip3 install xxx` 即可.
+直接在環境下 `pip3 install xxx` 即可.
 
 docker 的方法, 首先, 先確定 docker odoo 已經執行, 然後執行 `docker exec -it xxx bash` 進入容器,
 
@@ -466,11 +468,15 @@ docker 的方法, 首先, 先確定 docker odoo 已經執行, 然後執行 `dock
 
 最後重新啟動 odoo 安裝 auto_backup 即可.
 
-溫馨提醒, 不要用 `docker-compose down` (今天他會重建容器, 這樣你安裝的 package 就失效了), 請使用
+溫馨提醒, 不要用 `docker-compose down` (因為它會重建容器, 這樣你安裝的 package 就消失了),
 
-`docker-compose stop`.
+請使用 `docker-compose stop`.
 
-如果不懂這邊, 請參考 [docker-compose up/down 和 restart 的差異](https://github.com/twtrubiks/docker-tutorial#docker-compose-updown-%E5%92%8C-restart-%E7%9A%84%E5%B7%AE%E7%95%B0) 或直接看影片說明
+如果不懂, 請參考以下
+
+[docker-compose up/down 和 restart 的差異](https://github.com/twtrubiks/docker-tutorial#docker-compose-updown-%E5%92%8C-restart-%E7%9A%84%E5%B7%AE%E7%95%B0)
+
+或直接看影片說明
 
 [Youtube Tutorial- docker-compose up/down 和 restart 的差異](https://youtu.be/nX-sbLPz-MU)
 
@@ -480,13 +486,11 @@ docker 的方法, 首先, 先確定 docker odoo 已經執行, 然後執行 `dock
 
 ## odoo13 - 如何建立屬於自己的 docker odoo image
 
-[Youtube Tutorial - odoo13 - 如何建立屬於自己的 docker odoo image]()
+[Youtube Tutorial - odoo13 - 如何建立屬於自己的 docker odoo image](https://youtu.be/n8n1nJyw9ZM)
 
 所使用的 [docker-odoo](https://github.com/odoo/docker) repo,
 
-請看 [Dockerfile](),
-
-主要就是要修改這邊,
+請看 [Dockerfile](https://github.com/twtrubiks/odoo-docker-tutorial/blob/master/build-odoo-image/Dockerfile), 主要就是要修改這邊,
 
 ![alt tag](https://i.imgur.com/q4GIfmJ.png)
 
@@ -525,6 +529,8 @@ docker build -t twtrubiks/odoo13:20200301 .
 ```
 
 build 完之後, 如果一定正常, 輸入 `docker images` 你應該會看到下圖
+
+![alt tag](https://i.imgur.com/wSmHpkX.png)
 
 接著把你的 `docker-compose.yml` 中的 image 修改成你自己的測試看看,
 
