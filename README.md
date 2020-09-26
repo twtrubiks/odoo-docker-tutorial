@@ -22,6 +22,14 @@
 
 10. [odoo13 - 如何建立屬於自己的 docker odoo image](https://github.com/twtrubiks/odoo-docker-tutorial#odoo13---%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E5%B1%AC%E6%96%BC%E8%87%AA%E5%B7%B1%E7%9A%84-docker-odoo-image) - [Youtube Tutorial - odoo13 - 如何建立屬於自己的 docker odoo image](https://youtu.be/n8n1nJyw9ZM)
 
+11. [odoo13 - 如何透過 CLI 還原 odoo db 以及 filestore](https://github.com/twtrubiks/odoo-docker-tutorial#odoo13---%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8E-cli-%E9%82%84%E5%8E%9F-odoo-db-%E4%BB%A5%E5%8F%8A-filestore) - [Youtube Tutorial - 如何透過 CLI 還原 odoo db 以及 filestore](https://youtu.be/1ng4_xP2e1c)
+
+## 延伸閱讀
+
+[如何建立 odoo 開發環境 - odoo13 - 從無到有](https://github.com/twtrubiks/odoo-development-environment-tutorial)
+
+[手把手教大家撰寫 odoo 的 addons - 進階篇](https://github.com/twtrubiks/odoo-demo-addons-tutorial)
+
 ## 簡介
 
 什麼是 Odoo，他可以吃嗎 :question:
@@ -536,6 +544,139 @@ build 完之後, 如果一定正常, 輸入 `docker images` 你應該會看到�
 
 你也可以自己進去 odoo 容器中確認是否有安裝 `paramiko`.
 
+## odoo13 - 如何透過 CLI 還原 odoo db 以及 filestore
+
+[Youtube Tutorial - 如何透過 CLI 還原 odoo db 以及 filestore](https://youtu.be/1ng4_xP2e1c)
+
+前面教過大家 [如何進入 odoo Database 管理界面](https://github.com/twtrubiks/odoo-docker-tutorial#%E5%A6%82%E4%BD%95%E9%80%B2%E5%85%A5-odoo-database-%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2),
+
+但有時候會需要使用 CLI 的方式還原, 今天就來教大家這部份:smile:
+
+這邊直接使用 docker 示範,
+
+首先, 因為會還原 filestore, 所以請將 volumes 中的 `odoo-web-data` 同步到本機中,
+
+也會還原 db, 所以請將 volumes 中的 `odoo-db-tmp` 也同步到本機中.
+
+建議也給它們權限 `sudo chmod -R 777 odoo-web-data odoo-db-tmp`
+
+這邊如果不清楚, 請參考 [Docker 基本教學 - 從無到有 Docker-Beginners-Guide](https://github.com/twtrubiks/docker-tutorial)
+
+docker yaml 修改如下,
+
+```yaml
+version: '3.5'
+services:
+  web:
+    image: odoo:13.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - ./odoo-web-data:/var/lib/odoo   # <<---------------
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+      - ./odoo-log-data:/var/log/odoo
+  db:
+    image: postgres:10.9
+    ......
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+      - ./odoo-db-tmp:/var/tmp # <<---------------
+
+volumes:
+  #odoo-web-data:   # <<---------------
+```
+
+使用 CLI 的方式還原會需要兩步驟,
+
+第一, 還原 db.
+
+第二, 還原 filestore (通常圖片都保存在這裡面).
+
+假設今天要還原 twtrubiks 這個 db (直接從 odoo manager 中備份下來)
+
+打開這個 zip, 你會看到這些東西
+
+![alt tag](https://i.imgur.com/kWC83Z7.png)
+
+現在先進行第一步, 還原 db, 也就是還原 `dump.sql` 這個檔案,
+
+把 `dump.sql` 丟進去 `odoo-db-tmp` 資料夾中,
+
+這樣你就可以在 db 容器裡的 `/var/tmp` 地方看到它
+
+```cmd
+docker exec -it CONTAINER su postgres
+```
+
+![alt tag](https://i.imgur.com/6ift2RR.png)
+
+建立 db
+
+```cmd
+createdb DB_NAME -U odoo -W odoo
+```
+
+![alt tag](https://i.imgur.com/lGQKolS.png)
+
+這時候如果你進去 odoo manager, 你會看到他顯示驚嘆號, 因為裡面還沒有資料
+
+![alt tag](https://i.imgur.com/baXx38s.png)
+
+還原 db
+
+```cmd
+psql -U odoo -d DB_NAME < dump.sql
+```
+
+![alt tag](https://i.imgur.com/FTqDDld.png)
+
+等他順利跑完, 就代表還原完畢.
+
+`-d` 代表 dbname.
+
+`-U` 代表 username.
+
+`-W` 代表 password.
+
+`-h` 代表 hostname (可以忽略).
+
+你會發現驚嘆號消失了:smile:
+
+![alt tag](https://i.imgur.com/YThiNYs.png)
+
+雖然順利進去 odoo , 但你會發現圖片都消失了:expressionless:
+
+(有可能你在這邊會看到圖片, 這樣就代表那些圖片是保存在 db 中的)
+
+odoo 可以選擇要保存在 db 中還是 filestore 裡面.
+
+![alt tag](https://i.imgur.com/hijXpuT.png)
+
+第二步, 還原 filestore (通常圖片都保存在這裡面).
+
+![alt tag](https://i.imgur.com/kWC83Z7.png)
+
+直接把 zip 內的 filestore 資料夾複製到 `odoo-web-data/filestore` 裡面,
+
+然後把 filestore 資料夾的名稱改成 db 的名稱,
+
+![alt tag](https://i.imgur.com/vy3MeDS.png)
+
+建議給它權限 `sudo chmod -R 777 odoo-web-data`, 重起 odoo.
+
+![alt tag](https://i.imgur.com/Uc4isqC.png)
+
+這樣就可以順利看到圖片了.
+
+(如果還是看不到圖片, 請看看前面是不是有步驟漏掉了, 或是權限, 或是網頁快取)
+
+![alt tag](https://i.imgur.com/rv3yMUx.png)
+
+整個流程稍微比較複雜一點點:smirk:
+
 ## 後記
 
 這次的 Odoo 介紹是很基礎的帶大家稍微了解一下，還有非常多東西可以講，像是如何撰寫 addons，
@@ -547,6 +688,8 @@ build 完之後, 如果一定正常, 輸入 `docker images` 你應該會看到�
 ## 延伸閱讀
 
 [如何建立 odoo 開發環境 - odoo13 - 從無到有](https://github.com/twtrubiks/odoo-development-environment-tutorial)
+
+[手把手教大家撰寫 odoo 的 addons - 進階篇](https://github.com/twtrubiks/odoo-demo-addons-tutorial)
 
 ## Reference
 
