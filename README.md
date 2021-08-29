@@ -24,6 +24,8 @@
 
 11. [odoo13 - 如何透過 CLI 還原 odoo db 以及 filestore](https://github.com/twtrubiks/odoo-docker-tutorial#odoo13---%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8E-cli-%E9%82%84%E5%8E%9F-odoo-db-%E4%BB%A5%E5%8F%8A-filestore) - [Youtube Tutorial - 如何透過 CLI 還原 odoo db 以及 filestore](https://youtu.be/1ng4_xP2e1c)
 
+12. [odoo - 如何透過 log_level 了解 ORM RAW SQL](https://github.com/twtrubiks/odoo-docker-tutorial#odoo---%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8E-log_level-%E4%BA%86%E8%A7%A3-orm-raw-sql) - [Youtube Tutorial - 如何透過 log_level 了解 ORM RAW SQL](https://youtu.be/sZWFGf23gWc)
+
 ## 延伸閱讀
 
 [如何建立 odoo 開發環境 - odoo13 - 從無到有](https://github.com/twtrubiks/odoo-development-environment-tutorial)
@@ -676,6 +678,34 @@ odoo 可以選擇要保存在 db 中還是 filestore 裡面.
 ![alt tag](https://i.imgur.com/rv3yMUx.png)
 
 整個流程稍微比較複雜一點點:smirk:
+
+## odoo - 如何透過 log_level 了解 ORM RAW SQL
+
+[Youtube Tutorial - 如何透過 log_level 了解 ORM RAW SQL](https://youtu.be/sZWFGf23gWc)
+
+有時候, 總會很好奇某個 ORM 他所實際執行的 RAW SQL 到底是甚麼:question:
+
+那在 odoo 中, 我們應該怎麼看這個值呢:question:
+
+請先到 [config/odoo.conf](https://github.com/twtrubiks/odoo-docker-tutorial/blob/master/config/odoo.conf) 中修改 `log_level`
+
+```conf
+log_level = debug_sql
+```
+
+( `log_level` 有很多選擇, 詳細可參考官方文件 [logging](https://www.odoo.com/documentation/14.0/developer/misc/other/cmdline.html#logging))
+
+接著, 建議不要使用一般執行 odoo 的指令, 因為會跑很久:disappointed_relieved:
+
+請使用 odoo shell, 可參考之前的教學 [shell](https://github.com/twtrubiks/odoo-demo-addons-tutorial#shell)
+
+[Youtube Tutorial - odoo shell 基本教學 - CRUD](https://youtu.be/kmbiT54hUkw)
+
+進入 shell 後, 隨便執行一個 orm 指令, 就可以看到對應的 RAW SQL 了:smile:
+
+![alt tag](https://i.imgur.com/15JCkZx.png)
+
+更進一步的, 你可以把這些 sql 拿去任何地方執行, 像是 pgadmin4, 輸出的結果會是一樣的.
 
 ## 後記
 
