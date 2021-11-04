@@ -1,7 +1,7 @@
 version: '3.5'
 services:
   web:
-    image: odoo:13.0
+    image: odoo:15.0
     depends_on:
       - db
     ports:
@@ -14,7 +14,7 @@ services:
     # command:
     #   odoo -r odoo -w odoo -i addons -d odoo
   db:
-    image: postgres:10.9
+    image: postgres:12.8
     # ports:
     #   - "5432:5432"
     environment:
