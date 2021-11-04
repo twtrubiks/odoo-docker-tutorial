@@ -1,5 +1,7 @@
 # odoo-docker-tutorial
 
+該分支是使用 odoo12 為範例, 如需要 odoo15 範例, 請參考 [15.0分支](https://github.com/twtrubiks/odoo-docker-tutorial/tree/15.0)
+
 ## 目錄
 
 1. [odoo 簡介](https://github.com/twtrubiks/odoo-docker-tutorial#%E7%B0%A1%E4%BB%8B) - [Youtube Tutorial - 透過 docker 快速建立 odoo 環境 - 從無到有](https://youtu.be/uqxzq4Td6aU)
