@@ -10,11 +10,11 @@ services:
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
       - ./addons:/mnt/extra-addons
-      - ./odoo-log-data:/var/log/odoo
+      # - ./odoo-log-data:/var/log/odoo
     # command:
     #   odoo -r odoo -w odoo -i addons -d odoo
   db:
-    image: postgres:12.8
+    image: postgres:13
     # ports:
     #   - "5432:5432"
     environment:
