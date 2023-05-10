@@ -6,6 +6,11 @@ services:
       - db
     ports:
       - "8069:8069"
+    healthcheck:
+      test: curl -fs http://localhost:8069/web/database/selector || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
@@ -22,6 +27,11 @@ services:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo
       - PGDATA=/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - odoo-db-data:/var/lib/postgresql/data/pgdata
 
