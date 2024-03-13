@@ -28,6 +28,10 @@
 
 12. [odoo - 如何透過 log_level 了解 ORM RAW SQL](https://github.com/twtrubiks/odoo-docker-tutorial#odoo---%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8E-log_level-%E4%BA%86%E8%A7%A3-orm-raw-sql) - [Youtube Tutorial - 如何透過 log_level 了解 ORM RAW SQL](https://youtu.be/sZWFGf23gWc)
 
+## vscode debug odoo docker
+
+請參考 [vscode_debug_docker_odoo17 分支](https://github.com/twtrubiks/odoo-docker-tutorial/tree/vscode_debug_docker_odoo17)
+
 ## 延伸閱讀
 
 [如何建立 odoo 開發環境 - odoo13 - 從無到有](https://github.com/twtrubiks/odoo-development-environment-tutorial)
