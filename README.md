@@ -1,3 +1,5 @@
+[English Version](README_en.md)
+
 # odoo-docker-tutorial
 
 該分支是使用 odoo12 為範例, 如需要 odoo15 範例, 請參考 [15.0分支](https://github.com/twtrubiks/odoo-docker-tutorial/tree/15.0)
@@ -50,7 +52,7 @@ Odoo 有兩種版本，分別是
 
 Odoo-Community 以及 Odoo-Enterprise 的功能差異可以看 [HERE](https://www.odoo.com/page/editions)。
 
-至於為什麼要有 Odoo-Enterprise，原因很簡單，就是要養工程師:smile:
+至於為什麼要有 Odoo-Enterprise，原因很簡單，就是要養工程師 :smile:
 
 如果大家有興趣，可以去官網看一下 Odoo 的文章，有說會這樣做是因為公司差點 GG。
 
@@ -60,7 +62,7 @@ Odoo Community 的 source code 都在 github 上，可以點這裡 [odoo](https:
 
 Odoo11，最新的 Odoo12，以及快要推出的 Odoo13。
 
-先簡單介紹到這邊就好，讓我們先來看看什麼是 Odoo:satisfied:
+先簡單介紹到這邊就好，讓我們先來看看什麼是 Odoo :satisfied:
 
 ## 教學
 
@@ -68,7 +70,7 @@ Odoo11，最新的 Odoo12，以及快要推出的 Odoo13。
 
 但是如果你想要開發 addons，我會建議使用 source code 的方式來建立 Odoo，
 
-這部分如果大家有興趣有機會我再拍影片教大家:smirk:
+這部分如果大家有興趣有機會我再拍影片教大家 :smirk:
 
 如果你不懂 docker，可參考我之前寫的 [Docker 基本教學 - 從無到有 Docker-Beginners-Guide](https://github.com/twtrubiks/docker-tutorial)。
 
@@ -116,7 +118,7 @@ Odoo 每天都會在 [Odoo Nightly builds](http://nightly.odoo.com) build，
 
 你可以到 [odoo-docker-github](https://github.com/odoo/docker) 這邊去看這個 image 是用幾月幾號的 Odoo Source code build 的，
 
-如果你覺得太舊了，你也可以利用他的 Dockerfile 去 build 更新的 Odoo，這部分一樣有機會再教大家:smirk:
+如果你覺得太舊了，你也可以利用他的 Dockerfile 去 build 更新的 Odoo，這部分一樣有機會再教大家 :smirk:
 
 volumes 中的 `odoo-web-data:/var/lib/odoo` 是儲存 Odoo 中的資料。
 
@@ -136,13 +138,13 @@ volumes 中的 `./addons:/mnt/extra-addons` 則是 Odoo 的第三方 addons，
 
 這時候就會有客製化以及第三方 addons 的存在，
 
-這時候你可能會問，除了原生的 addons，哪裡有第三方 addons 呢:question:
+這時候你可能會問，除了原生的 addons，哪裡有第三方 addons 呢 :question:
 
 我提供幾個地方給大家參考，主要有兩個，首先是 [OCA](https://github.com/OCA)，裡面超多 addons，
 
 再來是 [Odoo Apps](https://www.odoo.com/apps/modules)，裡面有免費和付費的。
 
-這篇文章不會和大家說要如何自己撰寫一個 addons，下次有機會會再拍影片:smirk:
+這篇文章不會和大家說要如何自己撰寫一個 addons，下次有機會會再拍影片 :smirk:
 
 command 中的 `odoo -r odoo -w odoo -i addons -d odoo`，這段我是註解掉的，
 
@@ -202,9 +204,9 @@ docker-compose up
 
 * [Youtube Tutorial - odoo12 如何開啟 odoo developer mode](https://youtu.be/fUtqWQHbt1I)
 
-在 odoo 中, 開啟 developer mode 是很重要的:thumbsup:
+在 odoo 中, 開啟 developer mode 是很重要的 :thumbsup:
 
-他可以幫助你很多事情, 那要如何開啟呢:question:
+他可以幫助你很多事情, 那要如何開啟呢 :question:
 
 點選 Settings
 
@@ -254,7 +256,7 @@ sudo chmod -R 777 addons
 
 ![alt tag](https://i.imgur.com/9pGcFjy.png)
 
-然後重起 server ( 這步驟很重要, 有時候沒重起真的會遇到很怪的問題:joy: )
+然後重起 server ( 這步驟很重要, 有時候沒重起真的會遇到很怪的問題 :joy: )
 
 ![alt tag](https://i.imgur.com/glw83qW.png)
 
@@ -286,11 +288,11 @@ odoo 的登入頁面, 下方會有個 Manage Database，
 
 ![alt tag](https://i.imgur.com/Z4OSyLG.png)
 
-有注意到 Set Master Password 嗎:question:
+有注意到 Set Master Password 嗎 :question:
 
 (可參考 [Master Password](https://www.pgadmin.org/docs/pgadmin4/development/master_password.html))
 
-他其實是算多一層保護:relieved:
+他其實是算多一層保護 :relieved:
 
 當我們如果設定他之後， 在頁面上做任何操作，
 
@@ -315,9 +317,9 @@ admin_passwd = 666666
 
 ![alt tag](https://i.imgur.com/sCSN9f9.png)
 
-你可能會問我, 這樣任何 user 都可以進去, 不會很危險嗎:question:
+你可能會問我, 這樣任何 user 都可以進去, 不會很危險嗎 :question:
 
-（當然危險:joy:）
+（當然危險 :joy:）
 
 所以這個頁面可以關閉 (將 `list_db` 設為 `False` )
 
@@ -334,9 +336,9 @@ list_db = False
 
 ![alt tag](https://i.imgur.com/ydnI8V8.png)
 
-但這樣連 admin 也無法進去這頁面了:scream:
+但這樣連 admin 也無法進去這頁面了 :scream:
 
-所以比較好的方法是搭配 Nginx 把 url block 掉:smile:
+所以比較好的方法是搭配 Nginx 把 url block 掉 :smile:
 
 ( 設定只有特定 ip 可以訪問頁面 )
 
@@ -384,7 +386,7 @@ list_db = False
 
 ![alt tag](https://i.imgur.com/YlQ68Cz.png)
 
-但如果說今天我想要將 Logging 保存, 可能以後想要搭配 ELK 分析該怎麼辦:question:
+但如果說今天我想要將 Logging 保存, 可能以後想要搭配 ELK 分析該怎麼辦 :question:
 
 首先, 到[odoo.conf](https://github.com/twtrubiks/odoo-docker-tutorial/blob/master/config/odoo.conf) 中加入
 
@@ -416,9 +418,9 @@ services:
 
 將 `/var/log/odoo` 資料夾同步到本機的 `./odoo-log-data`.
 
-然後還有一點很重要, 請將你的 `./odoo-log-data` 給於權限 :exclamation::exclamation:
+然後還有一點很重要, 請將你的 `./odoo-log-data` 給於權限 :exclamation: :exclamation:
 
-不然你會發現你資料一直寫不進去:joy:
+不然你會發現你資料一直寫不進去 :joy:
 
 方法也很簡單, 使用以下的指令即可
 
@@ -470,7 +472,7 @@ sudo chmod -R 777 odoo-log-data
 
 這樣就比較簡單了, 安裝 addons 前, 只需要檢查 `__manifest__.py` 即可.
 
-講完兩種狀況了, 接下來說明如何解決:smile:
+講完兩種狀況了, 接下來說明如何解決 :smile:
 
 其實也很簡單, 就把 python package 裝起來即可, 這邊用 docker 當範例, 如果不是用 docker,
 
@@ -496,9 +498,9 @@ docker 的方法, 首先, 先確定 docker odoo 已經執行, 然後執行 `dock
 
 [Youtube Tutorial- docker-compose up/down 和 restart 的差異](https://youtu.be/nX-sbLPz-MU)
 
-這邊你可能會問我, 如果我想要建立自己的 odoo images 呢:question: (因為我就是會安裝某些特定 addons)
+這邊你可能會問我, 如果我想要建立自己的 odoo images 呢 :question: (因為我就是會安裝某些特定 addons)
 
-下面就繼續來介紹這部份:satisfied:
+下面就繼續來介紹這部份 :satisfied:
 
 ## odoo13 - 如何建立屬於自己的 docker odoo image
 
@@ -515,9 +517,9 @@ ARG ODOO_RELEASE=20200121
 ARG ODOO_SHA=cb0bcb5d239983468c2e3b3f7cf17f58df820b1c
 ```
 
-假設今天有一個 bug 在 20200301 才被修正, 可是官方的 docker images 只到1月該怎辦:question:
+假設今天有一個 bug 在 20200301 才被修正, 可是官方的 docker images 只到1月該怎辦 :question:
 
-這時候肯定就是動手自己來 build 了:laughing:
+這時候肯定就是動手自己來 build 了 :laughing:
 
 修改 `ODOO_RELEASE=20200301` 然後 `ODOO_SHA` 需要到以下的網站查看 `odoo_13.0.20200301_amd64.changes`,
 
@@ -538,7 +540,7 @@ ARG ODOO_SHA=c72896852e6a6aa730db366a96d2602d91317bfa
 
 最後, 請記得給資料夾權限, `sudo chmod -R 777 build-odoo-image`.
 
-切換到目錄資料夾底下輸入 build 指令 (這邊要多等一下:smirk:)
+切換到目錄資料夾底下輸入 build 指令 (這邊要多等一下 :smirk:)
 
 ```cmd
 docker build -t twtrubiks/odoo13:20200301 .
@@ -558,7 +560,7 @@ build 完之後, 如果一定正常, 輸入 `docker images` 你應該會看到�
 
 前面教過大家 [如何進入 odoo Database 管理界面](https://github.com/twtrubiks/odoo-docker-tutorial#%E5%A6%82%E4%BD%95%E9%80%B2%E5%85%A5-odoo-database-%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2),
 
-但有時候會需要使用 CLI 的方式還原, 今天就來教大家這部份:smile:
+但有時候會需要使用 CLI 的方式還原, 今天就來教大家這部份 :smile:
 
 這邊直接使用 docker 示範,
 
@@ -651,11 +653,11 @@ psql -U odoo -d DB_NAME < dump.sql
 
 `-h` 代表 hostname (可以忽略).
 
-你會發現驚嘆號消失了:smile:
+你會發現驚嘆號消失了 :smile:
 
 ![alt tag](https://i.imgur.com/YThiNYs.png)
 
-雖然順利進去 odoo , 但你會發現圖片都消失了:expressionless:
+雖然順利進去 odoo , 但你會發現圖片都消失了 :expressionless:
 
 (有可能你在這邊會看到圖片, 這樣就代表那些圖片是保存在 db 中的)
 
@@ -683,15 +685,15 @@ odoo 可以選擇要保存在 db 中還是 filestore 裡面.
 
 ![alt tag](https://i.imgur.com/rv3yMUx.png)
 
-整個流程稍微比較複雜一點點:smirk:
+整個流程稍微比較複雜一點點 :smirk:
 
 ## odoo - 如何透過 log_level 了解 ORM RAW SQL
 
 [Youtube Tutorial - 如何透過 log_level 了解 ORM RAW SQL](https://youtu.be/sZWFGf23gWc)
 
-有時候, 總會很好奇某個 ORM 他所實際執行的 RAW SQL 到底是甚麼:question:
+有時候, 總會很好奇某個 ORM 他所實際執行的 RAW SQL 到底是甚麼 :question:
 
-那在 odoo 中, 我們應該怎麼看這個值呢:question:
+那在 odoo 中, 我們應該怎麼看這個值呢 :question:
 
 請先到 [config/odoo.conf](https://github.com/twtrubiks/odoo-docker-tutorial/blob/master/config/odoo.conf) 中修改 `log_level`
 
@@ -701,13 +703,13 @@ log_level = debug_sql
 
 ( `log_level` 有很多選擇, 詳細可參考官方文件 [logging](https://www.odoo.com/documentation/14.0/developer/misc/other/cmdline.html#logging))
 
-接著, 建議不要使用一般執行 odoo 的指令, 因為會跑很久:disappointed_relieved:
+接著, 建議不要使用一般執行 odoo 的指令, 因為會跑很久 :disappointed_relieved:
 
 請使用 odoo shell, 可參考之前的教學 [shell](https://github.com/twtrubiks/odoo-demo-addons-tutorial#shell)
 
 [Youtube Tutorial - odoo shell 基本教學 - CRUD](https://youtu.be/kmbiT54hUkw)
 
-進入 shell 後, 隨便執行一個 orm 指令, 就可以看到對應的 RAW SQL 了:smile:
+進入 shell 後, 隨便執行一個 orm 指令, 就可以看到對應的 RAW SQL 了 :smile:
 
 ![alt tag](https://i.imgur.com/15JCkZx.png)
 
@@ -734,7 +736,7 @@ log_level = debug_sql
 
 ## Donation
 
-文章都是我自己研究內化後原創，如果有幫助到您，也想鼓勵我的話，歡迎請我喝一杯咖啡:laughing:
+文章都是我自己研究內化後原創，如果有幫助到您，也想鼓勵我的話，歡迎請我喝一杯咖啡 :laughing:
 
 綠界科技ECPAY ( 不需註冊會員 )
 
